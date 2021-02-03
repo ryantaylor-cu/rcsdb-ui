@@ -1,0 +1,7 @@
+class ClientConfig {
+    getApi() {
+        return 'http://localhost:7017/srna_api';
+    }
+}
+
+export default ClientConfig;

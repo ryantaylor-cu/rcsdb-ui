@@ -1,0 +1,7 @@
+class ClientConfig {
+    getApi() {
+        return 'https://rcs-development.carleton.ca:7019/srna_api';
+    }
+}
+
+export default ClientConfig;
