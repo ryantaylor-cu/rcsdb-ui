@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+#
+
+# Emacs creates temp files (e.g. lock files) that cause web-pack in
+# the dev server to crash.  This script does a temporary fix in the
+# node_modules packages to avoid this problem.
+#
+# Yeah, I know; I could switch from emacs to some other editor.  But
+# this is easier :-)
+
+import re
+import fileinput
+
+CONFIG_FILE = "./node_modules/react-scripts/config/webpackDevServer.config.js"
+
+for line in fileinput.input(CONFIG_FILE, inplace=True):
+    if re.match(' *ignored: ', line):
+        print("      ignored: [ignoredFiles(paths.appSrc), '**/.#*', '**/*~', '**/#*#'],")
+    else:
+        print(line, end='')
