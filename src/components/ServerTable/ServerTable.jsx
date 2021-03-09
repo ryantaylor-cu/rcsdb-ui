@@ -65,7 +65,7 @@ import Button from '../Button';
  *     buttonIcon: { fill: theme.palette.primary.main },
  * }));
  *  */
-function RyanTest(props) {
+function ServerTable(props) {
     const [data, setData] = React.useState([]);
     const serverService = useService('server');
     
@@ -146,4 +146,4 @@ function RyanTest(props) {
 
 //ComputationResult.propTypes = { match: PropTypes.object.isRequired };
 
-export default RyanTest;
+export default ServerTable;
