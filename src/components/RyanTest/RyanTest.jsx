@@ -65,45 +65,81 @@ import Button from '../Button';
  *     buttonIcon: { fill: theme.palette.primary.main },
  * }));
  *  */
-function RyanTest() {
-    const [loading, setLoading] = React.useState(false);
+function RyanTest(props) {
+    const [data, setData] = React.useState([]);
+    const serverService = useService('server');
     
     const columns = [
         {
             title: 'Server',
-            field: 'server_name',
+            field: 'hostname',
         },
         {
-            title: 'VM Count',
-            field: 'vm_count',
+            title: 'Cores',
+            field: 'cores',
+        },
+        {
+            title: 'RAM',
+            field: 'ram',
+        },
+        {
+            title: 'Purchased',
+            field: 'purchase_date',
+        },
+        {
+            title: 'Vendor',
+            field: 'vendor',
+        },
+        {
+            title: 'Model',
+            field: 'model',
         }
     ];
-    const data = [
-        {
-            server_name: 'rcscompute01',
-            vm_count: 10,
-        },
-        {
-            server_name: 'rcscompute02',
-            vm_count: 8
-        },
-    ];
-    return (
-        <MaterialTable
-            columns={columns}
-            data={data}
-            isLoading={loading}
-        /* options={{
-         *     filtering: true,
-         *     pageSize: 5,
-         * }} */
-            style={{
-                padding: 10,
-                minWidth: 480,
-            }}
-            title='Example Static Server Table'
-        />
-    );
+    /* const data = [
+     *     {
+     *         server_name: 'rcscompute01',
+     *         vm_count: 10,
+     *     },
+     *     {
+     *         server_name: 'rcscompute02',
+     *         vm_count: 8
+     *     },
+     * ];
+     */
+    React.useEffect(() => {
+        serverService.serverList().then(newData => {
+            setData(newData)
+        });
+        /* setData([
+         *     {
+         *         server_name: 'rcscompute01',
+         *         vm_count: 10,
+         *     },
+         *     {
+         *         server_name: 'rcscompute02',
+         *         vm_count: 8
+         *     },
+         * ]); */
+    },
+    [setData]);
+        
+        
+        return (
+            <MaterialTable
+                columns={columns}
+                data={data}
+            //isLoading={loading}
+            /* options={{
+                *     filtering: true,
+                *     pageSize: 5,
+                * }} */
+                style={{
+                    padding: 10,
+                    minWidth: 480,
+                }}
+                title='RCDC Compute Servers'
+            />
+        );
 }
 
 //ComputationResult.propTypes = { match: PropTypes.object.isRequired };
