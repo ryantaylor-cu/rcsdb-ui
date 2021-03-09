@@ -1,6 +1,6 @@
 {
-  "short_name": "srna-ui",
-  "name": "sRNA Computation",
+  "short_name": "rcdc-frontend",
+  "name": "RCDC Database",
   "icons": [
     {
       "src": "favicon.ico",

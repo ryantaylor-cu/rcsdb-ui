@@ -124,21 +124,23 @@ function RyanTest(props) {
     [setData]);
         
         
-        return (
-            <MaterialTable
-                columns={columns}
-                data={data}
-            //isLoading={loading}
-            /* options={{
-                *     filtering: true,
-                *     pageSize: 5,
-                * }} */
-                style={{
-                    padding: 10,
-                    minWidth: 480,
-                }}
-                title='RCDC Compute Servers'
-            />
+    return (
+        <Box ml={10} mr={10} mt={3}>
+          <MaterialTable
+              columns={columns}
+              data={data}
+          //isLoading={loading}
+          /* options={{
+              *     filtering: true,
+              *     pageSize: 5,
+              * }} */
+              style={{
+                  padding: 10,
+                  minWidth: 480,
+              }}
+              title='Compute Servers'
+          />
+        </Box>
         );
 }
 

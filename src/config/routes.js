@@ -6,21 +6,9 @@ import RyanTest from '../components/RyanTest';
 
 export default [
     {
-        path: '/',
+        path: '/servers',
         component: RyanTest,
     },
-    /* {
-     *     path: '/history',
-     *     component: Computations,
-     * },
-     * {
-     *     path: '/',
-     *     component: ComputationForm,
-     * },
-     * {
-     *     path: '/computation/:id',
-     *     component: ComputationResult,
-     * }, */
     {
         path: '*',
         component: NotFound,
