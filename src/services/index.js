@@ -5,3 +5,4 @@ export { default as storage } from './StorageService';
 export { default as computation } from './ComputationService';
 export { default as session } from './SessionService';
 export { default as server } from './ServerService';
+export { default as vm } from './VMService';

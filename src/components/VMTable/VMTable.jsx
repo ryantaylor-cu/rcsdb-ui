@@ -65,38 +65,34 @@ import Button from '../Button';
  *     buttonIcon: { fill: theme.palette.primary.main },
  * }));
  *  */
-function ServerTable(props) {
+function VMTable(props) {
     const [data, setData] = React.useState([]);
-    const serverService = useService('server');
+    const vmService = useService('vm');
     
     const columns = [
         {
-            title: 'Server',
-            field: 'hostname',
+            title: 'VM',
+            field: 'hostname'
         },
         {
             title: 'Cores',
-            field: 'cores',
+            field: 'cores'
         },
         {
-            title: 'RAM',
-            field: 'ram',
+            title: 'RAM (GB)',
+            field: 'ram'
         },
         {
-            title: 'Purchased',
-            field: 'purchase_date',
+            title: 'Disk (GB)',
+            field: 'root_disk_size'
         },
         {
-            title: 'Vendor',
-            field: 'vendor',
+            title: 'IP Address',
+            field: 'ip'
         },
-        {
-            title: 'Model',
-            field: 'model',
-        }
     ];
     React.useEffect(() => {
-        serverService.serverList().then(newData => {
+        vmService.vmList().then(newData => {
             setData(newData)
         });
     },
@@ -117,7 +113,7 @@ function ServerTable(props) {
                   padding: 10,
                   minWidth: 480,
               }}
-              title='Compute Servers'
+              title='Virtual Machines'
           />
         </Box>
         );
@@ -125,4 +121,4 @@ function ServerTable(props) {
 
 //ComputationResult.propTypes = { match: PropTypes.object.isRequired };
 
-export default ServerTable;
+export default VMTable;
