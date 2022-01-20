@@ -7,7 +7,9 @@ import {
     Box,
     Typography,
     Link,
+    IconButton,
 } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Brightness2 as LightModeIcon,
@@ -26,11 +28,25 @@ import {
 } from '../../hooks';
 import { routes } from '../../config';
 import UserMenu from './UserMenu';
+import Drawer from '../Drawer';
 
 export const useStyles = makeStyles(theme => ({
     toolbar: {
         paddingLeft: 0,
         paddingRight: 0,
+    },
+    hamburgerButtonRoot: {
+        // Todo need to use appBar height from theme
+        height: 64,
+        background: 'white',
+    },
+    hamburgerButton: {
+        marginLeft: 2,
+        marginRight: 2,
+    },
+    hamburgerButtonIcon: {
+        margin: theme.spacing(1),
+        fill: 'black',
     },
     appBar: {
         marginLeft: theme.spacing(2),
@@ -49,6 +65,16 @@ export const useStyles = makeStyles(theme => ({
         // TODO need to use appBar height from themes.
         paddingTop: 64,
     },
+    contentShift: {
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 265,
+        // TODO need to use appBar height from themes.
+        paddingTop: 64,
+    },
+    hide: { visibility: 'hidden' },
 }));
 
 function Main() {
@@ -64,6 +90,9 @@ function Main() {
     const storageService = useService('storage');
     const sessionService = useService('session');
 
+    const { open: drawerOpen, enabled: drawerEnabled } = useStore('drawer');
+    const { toggle: toggleDrawer } = useActions('drawer');
+    
     const switchThemeMode = () => themeActions.setMode(!isDark ? 'dark' : 'light');
 
     const createSessionId = React.useCallback(() => {
@@ -71,7 +100,7 @@ function Main() {
         if (sessionId) {
             userSessionActions.login(sessionId);
         } else {
-            const sessionId = jwt.sign({ createdDate: new Date().toISOString() }, 'srna');
+            const sessionId = jwt.sign({ createdDate: new Date().toISOString() }, 'rcdc');
             userSessionActions.register(sessionId);
         }
     }, [storageService, userSessionActions]);
@@ -97,47 +126,49 @@ function Main() {
 
     return (
         <>
-            <AppBar position='fixed'>
-                <Toolbar className={classes.toolbar}>
-                    <Logo />
-                    <Box className={classes.appBar}>
-                        <Typography
-                            className={
-                                clsx(
-                                    { [classes.hide]: dimensions.width < 690 },
-                                )
-                            }
-                            variant='h5'
-                        >
-                            <Link
-                                color='inherit'
-                                href='/'
-                                style={{ textDecoration: 'none' }}
+                <AppBar position='fixed'>
+                    <Toolbar className={classes.toolbar}>
+                        <Box className={classes.hamburgerButtonRoot}>
+                            <IconButton
+                                className={clsx(
+                                    classes.hamburgerButton,
+                                    { hide: !drawerEnabled },
+                                )}
+                                onClick={() => toggleDrawer()}
                             >
-                                {t('appBar.title')}
-                            </Link>
-                        </Typography>
-                        <UserMenu
-                            displayName={t('appBar.settings')}
-                            dropdowns={[
-                                {
-                                    title: t('appBar.clearSession'),
-                                    Icon: <ClearSessionIcon />,
-                                    handler: clearSession,
-                                },
-                                {
-                                    title: `${!isDark ? t('appBar.dark') : t('appBar.light')} ${t('appBar.theme')}`,
-                                    Icon: !isDark ? <LightModeIcon /> : <DarkModeIcon />,
-                                    handler: switchThemeMode,
-                                },
-                            ]}
-                        />
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            <main className={classes.content}>
-                <Switch>{routesAssemblerService.assemble(routes)}</Switch>
-            </main>
+                                <MenuIcon className={classes.hamburgerButtonIcon} />
+            </IconButton>
+                        </Box>
+                        <Logo />
+                        <Box className={classes.appBar}>
+                            <Typography
+                                className={
+                                    clsx(
+                                        { [classes.hide]: dimensions.width < 690 },
+                                    )
+                                }
+                                variant='h5'
+                            >
+                                Aptamer Database
+                            </Typography>
+                            <UserMenu
+                                displayName="Hello World"
+                                dropdowns={[
+                                     {
+                                         title: `${!isDark ? 'Dark' : 'Light'} Theme`,
+                                         Icon: !isDark ? <LightModeIcon /> : <DarkModeIcon />,
+                                         handler: switchThemeMode,
+                                     },
+                                ]}
+        />
+        </Box>
+        </Toolbar>
+        </AppBar>
+        <Drawer
+        />
+          <main className={classes.content}>
+            <Switch>{routesAssemblerService.assemble(routes)}</Switch>
+          </main>
         </>
     );
 }
